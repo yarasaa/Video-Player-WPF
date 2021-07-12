@@ -1,0 +1,174 @@
+﻿<Window x:Class="GirişEkranı.AnaEkran"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GirişEkranı"
+        mc:Ignorable="d"
+        Title="AnaEkran" Height="600" Width="900" ResizeMode="NoResize" Loaded="Window_Loaded">
+
+    <!--Menü Animasyonu-->
+
+    <Window.Resources>
+        <Storyboard x:Key="MenuOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="180"/>
+
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="MenuClose">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="50"/>
+
+
+
+
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        
+        
+        
+
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+
+        </EventTrigger>
+
+
+    </Window.Triggers>
+
+
+
+
+
+
+
+
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition SharedSizeGroup="group1" Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+
+        <!--açılıp kapanan menü-->
+
+
+        <Grid Width="50" HorizontalAlignment="Left" x:Name="GridMenu" Background="#FF252526" Grid.Row="0" Grid.RowSpan="2">
+            <StackPanel x:Name="StackMenu">
+                <Grid>
+
+                    <Button Click="ButtonOpenMenu_Click" x:Name="ButtonOpenMenu" Height="50" Width="50" HorizontalAlignment="Right">
+                        <Image Source="/SliderMenuIcon/MenuButton.png" />
+                    </Button>
+
+                    <Button Click="ButtonCloseMenu_Click" x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="50" Width="50" HorizontalAlignment="Right">
+                        <Image Source="/SliderMenuIcon/LeftButton.png" />
+                    </Button>
+
+                </Grid>
+                <ListBox  x:Name="listFile" Height="250" Background="LightGray" Foreground="White"></ListBox>
+                <Border VerticalAlignment="Top" BorderBrush="White" Opacity="1" BorderThickness="2" Grid.ColumnSpan="8"></Border>
+
+
+
+                <Label HorizontalAlignment="Center" Foreground="White" Content="Hoşgeldiniz"></Label>
+                <Label FontSize="20" x:Name="lblUserName" Height="40" Foreground="White"></Label>
+
+                <DockPanel>
+                    <Grid VerticalAlignment="Bottom">
+                        <Button Click="Button_Click" ToolTip="Close" Margin="0,70,0,0" Width="50">
+                            <Image Source="/SliderMenuIcon/ExitButton.png" />
+
+                        </Button>
+                    </Grid>
+                </DockPanel>
+
+            </StackPanel>
+
+
+        </Grid>
+
+
+
+
+        <!--Mediaplayer butonları-->
+
+        <Grid x:Name="PlayerMenu" Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+
+            <Slider  TickPlacement="Both" IsSnapToTickEnabled="True" Maximum="10" x:Name="VolumeSlider" ValueChanged="VolumeSlider_ValueChanged"
+                Background="Black" VerticalAlignment="Center" Grid.Column="7">
+                <Slider.Ticks >0,1,2,3,4,5,6,7,8,9,10</Slider.Ticks>
+            </Slider>
+            <Button Click="btnFileMenu_Click" x:Name="btnFileMenu" Width="70" ToolTip="Open File" Background="Transparent">
+
+                <Image  Width="60" Source="/MediaPlayerImage/OpenFile.png"/>
+            </Button>
+
+            <Button Click="btnPlay_Click" x:Name="btnPlay" Width="70" ToolTip="Play the video" Grid.Column="1" Background="Transparent">
+
+                <Image  Source="/MediaPlayerImage/Playbutton.png" />
+            </Button>
+
+            <Button Click="btnStop_Click"  x:Name="btnStop"  Width="70" ToolTip="Stop the video" Grid.Column="3" Background="Transparent">
+                <Image  Source="/MediaPlayerImage/StopButton.png" />
+
+            </Button>
+
+            <Button Click="btnPause_Click" x:Name="btnPause" Width="70" ToolTip="Pause the video" Grid.Column="2" Background="Transparent">
+                <Image  Source="/MediaPlayerImage/PauseButton.png" />
+            </Button>
+
+
+        </Grid>
+        <!--Mediplayer Slider-->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Slider Thumb.DragStarted="MediaSlider_DragStarted" Thumb.DragCompleted="MediaSlider_DragCompleted" x:Name="MediaSlider"  ValueChanged="MediaSlider_ValueChanged" Background="Black"></Slider>
+        </Grid>
+
+
+        <!--Mediaplayer Mediaelement-->
+        <Grid Grid.Column="1">
+            <MediaElement Loaded="Media_Loaded"  ScrubbingEnabled="True" MediaOpened="Media_MediaOpened" x:Name="Media" Width="auto" LoadedBehavior="Manual">
+
+            </MediaElement>
+        </Grid>
+
+
+
+    </Grid>
+</Window>
